@@ -15,6 +15,6 @@ export class Publisher {
   @Column()
   phone: string;
 
-  @OneToMany(type => Game, game => game.publisher)
+  @OneToMany(type => Game, game => game.publisher, { nullable: true })
   games: Game[];
 }

@@ -15,9 +15,12 @@ export class Game {
   @Column({ type: 'simple-array', nullable: true })
   tags: string[];
 
-  @ManyToOne(type => Publisher, publisher => publisher.games)
+  @ManyToOne(type => Publisher, publisher => publisher.games, { nullable: true, onDelete: 'CASCADE' })
   publisher: Publisher;
 
   @Column({ type: 'timestamp', nullable: false, default: () => 'CURRENT_TIMESTAMP' })
   releaseDate: Date;
+
+  @Column({ default: false })
+  isDiscount: boolean;
 }
