@@ -5,6 +5,7 @@ services:
     build: .
     ports:
       - '3000:3000'
+    command: sh -c './wait-for database:3306 -- node dist/main.js'
     depends_on:
       - database
   database:
