@@ -1,4 +1,14 @@
-import { Controller, Post, Body, ClassSerializerInterceptor, UseInterceptors, Get, Param, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  ClassSerializerInterceptor,
+  UseInterceptors,
+  Get,
+  Param,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 
 import { GameService } from '../services/game.service';
 import { CreateGameDto } from '../dto/createGame.dto';
@@ -32,5 +42,10 @@ export class GameController {
     @Body() updateGameDto: UpdateGameDto,
   ): Promise<ResponseGameDto> {
     return await this.gameService.updateGame(id, updateGameDto);
+  }
+
+  @Delete(':id')
+  async deleteGame(@Param('id', ParamIdValidationPipe) id: string): Promise<ResponseGameDto> {
+    return await this.gameService.delete(id);
   }
 }

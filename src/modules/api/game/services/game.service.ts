@@ -7,7 +7,7 @@ import { Game } from '../../../../shared/entities/game.entity';
 import { CreateGameDto } from '../dto/createGame.dto';
 import { PublisherService } from '../../../publisher/services/publisher.service';
 import { UpdateGameDto } from '../dto/updateGame.dto';
-import { Publisher } from 'src/shared/entities/publisher.entity';
+import { Publisher } from '../../../../shared/entities/publisher.entity';
 
 @Injectable()
 export class GameService {
@@ -43,6 +43,12 @@ export class GameService {
       game.publisher = publisher;
     }
     await this.gameRepository.update(id, game);
+    return game;
+  }
+
+  async delete(id: string): Promise<Game> {
+    const game = await this.findOne(id);
+    await this.gameRepository.delete(game.id);
     return game;
   }
 
