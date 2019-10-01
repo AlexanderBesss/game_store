@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as _ from 'lodash';
 
 import { Game } from '../../../../shared/entities/game.entity';
 import { CreateGameDto } from '../dto/createGame.dto';
@@ -15,12 +16,9 @@ export class GameService {
 
   async create(createGameDto: CreateGameDto): Promise<Game> {
     const publisher = await this.publisherService.findById(createGameDto.publisherId);
-    const game = new Game();
+    const gameFromDto = _.pick(createGameDto, ['title', 'releaseDate', 'price', 'tags']);
+    const game = this.gameRepository.create(gameFromDto);
     game.publisher = publisher;
-    game.price = createGameDto.price;
-    game.releaseDate = createGameDto.releaseDate;
-    game.tags = createGameDto.tags;
-    game.title = createGameDto.title;
     return this.gameRepository.save(game);
   }
 
