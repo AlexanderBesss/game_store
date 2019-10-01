@@ -6,6 +6,8 @@ import * as _ from 'lodash';
 import { Game } from '../../../../shared/entities/game.entity';
 import { CreateGameDto } from '../dto/createGame.dto';
 import { PublisherService } from '../../../publisher/services/publisher.service';
+import { UpdateGameDto } from '../dto/updateGame.dto';
+import { Publisher } from 'src/shared/entities/publisher.entity';
 
 @Injectable()
 export class GameService {
@@ -27,6 +29,24 @@ export class GameService {
   }
 
   async getGame(id: string): Promise<Game> {
+    return await this.findOne(id);
+  }
+
+  async updateGame(id: string, updateGameDto: UpdateGameDto): Promise<Game> {
+    let publisher: Publisher;
+    if (updateGameDto.publisherId) {
+      publisher = await this.publisherService.findById(updateGameDto.publisherId);
+    }
+    const gameFromDto = _.pick(updateGameDto, ['title', 'releaseDate', 'price', 'tags']);
+    const game = this.gameRepository.create(gameFromDto);
+    if (publisher) {
+      game.publisher = publisher;
+    }
+    await this.gameRepository.update(id, game);
+    return game;
+  }
+
+  private async findOne(id: string): Promise<Game> {
     const game = await this.gameRepository.findOne(id);
     if (!game) {
       throw new NotFoundException('Game not found.');
