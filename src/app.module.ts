@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GameModule } from './api/game/game.module';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/services/config.service';
+import { PublisherModule } from './publisher/publisher.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ConfigService } from './config/services/config.service';
     }),
     GameModule,
     ConfigModule,
+    PublisherModule,
   ],
 })
 export class AppModule {}
