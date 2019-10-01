@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 import { Game } from '../../../../shared/entities/game.entity';
 import { CreateGameDto } from '../dto/createGame.dto';
@@ -58,6 +59,25 @@ export class GameService {
       throw new NotFoundException('Game not found.');
     }
     return game.publisher;
+  }
+
+  async actualize() {
+    const games = await this.gameRepository.find();
+    games.forEach(async game => {
+      if (
+        !game.isDiscount &&
+        moment().diff(game.releaseDate, 'months') >= 12 &&
+        (!game.isDiscount && moment().diff(game.releaseDate, 'months') <= 18)
+      ) {
+        game.isDiscount = true;
+        game.price = game.price * 0.8;
+        await this.gameRepository.update(game.id, game);
+      }
+      if (moment().diff(game.releaseDate, 'months') > 18) {
+        await this.gameRepository.remove(game);
+      }
+    });
+    return { success: true };
   }
 
   private async findOne(id: string): Promise<Game> {

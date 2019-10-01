@@ -22,6 +22,11 @@ import { ResponsePublisherDto } from '../dto/responsePublisher.dto';
 export class GameController {
   constructor(private readonly gameService: GameService) {}
 
+  @Get('actualize')
+  async actualizeGames(): Promise<any> {
+    return this.gameService.actualize();
+  }
+
   @Post()
   async create(@Body() createGameDto: CreateGameDto): Promise<ResponseGameDto> {
     return await this.gameService.create(createGameDto);
