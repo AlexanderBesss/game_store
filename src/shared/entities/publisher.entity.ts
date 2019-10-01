@@ -11,7 +11,7 @@ export class Publisher implements IPublisher {
   @Column({ length: 40 })
   name: string;
 
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: 'bigint', default: 0 })
   siret: number;
 
   @Column()

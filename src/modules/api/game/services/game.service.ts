@@ -52,6 +52,14 @@ export class GameService {
     return game;
   }
 
+  async getPublisher(id: string): Promise<Publisher> {
+    const game = await this.gameRepository.findOne(id, { relations: ['publisher'] });
+    if (!game) {
+      throw new NotFoundException('Game not found.');
+    }
+    return game.publisher;
+  }
+
   private async findOne(id: string): Promise<Game> {
     const game = await this.gameRepository.findOne(id);
     if (!game) {
