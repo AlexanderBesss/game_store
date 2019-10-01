@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Publisher } from '../../shared/entities/publisher.entity';
+import { Publisher } from '../../../shared/entities/publisher.entity';
 
 @Injectable()
 export class PublisherService {
