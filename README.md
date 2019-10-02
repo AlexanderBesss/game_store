@@ -1,7 +1,8 @@
 ## Documentation
 
 ```bash
-$ {{url}}/api/docs
+#documentation exapmle: localhost:3000/api/docs
+ {{url}}/api/docs
 ```
 
 ## Docker
