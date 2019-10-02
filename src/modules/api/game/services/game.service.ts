@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import * as _ from 'lodash';
+import { Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 import * as moment from 'moment';
 
 import { Game } from '../../../../shared/entities/game.entity';
@@ -9,6 +8,7 @@ import { CreateGameDto } from '../dto/createGame.dto';
 import { PublisherService } from '../../../publisher/services/publisher.service';
 import { UpdateGameDto } from '../dto/updateGame.dto';
 import { Publisher } from '../../../../shared/entities/publisher.entity';
+import { FilterGameFromDto } from '../utils/filterGameFromDto';
 
 @Injectable()
 export class GameService {
@@ -19,8 +19,8 @@ export class GameService {
 
   async create(createGameDto: CreateGameDto): Promise<Game> {
     const publisher = await this.publisherService.findById(createGameDto.publisherId);
-    const gameFromDto = _.pick(createGameDto, ['title', 'releaseDate', 'price', 'tags']);
-    const game = this.gameRepository.create(gameFromDto);
+    const gameDataFromDto = FilterGameFromDto.filter(createGameDto);
+    const game = this.gameRepository.create(gameDataFromDto);
     game.publisher = publisher;
     return this.gameRepository.save(game);
   }
@@ -38,8 +38,8 @@ export class GameService {
     if (updateGameDto.publisherId) {
       publisher = await this.publisherService.findById(updateGameDto.publisherId);
     }
-    const gameFromDto = _.pick(updateGameDto, ['title', 'releaseDate', 'price', 'tags']);
-    const game = this.gameRepository.create(gameFromDto);
+    const gameDataFromDto = FilterGameFromDto.filter(updateGameDto);
+    const game = this.gameRepository.create(gameDataFromDto);
     if (publisher) {
       game.publisher = publisher;
     }
@@ -61,8 +61,8 @@ export class GameService {
     return game.publisher;
   }
 
-  async actualize() {
-    const games = await this.gameRepository.find();
+  async actualize(): Promise<Game[]> {
+    const games = await this.findNotActualGames();
     games.forEach(async game => {
       if (
         !game.isDiscount &&
@@ -77,7 +77,18 @@ export class GameService {
         await this.gameRepository.remove(game);
       }
     });
-    return { success: true };
+    return games;
+  }
+
+  private async findNotActualGames(): Promise<Game[]> {
+    const games = await this.gameRepository.find({
+      releaseDate: LessThanOrEqual(
+        moment()
+          .subtract(12, 'months')
+          .toDate(),
+      ),
+    });
+    return games;
   }
 
   private async findOne(id: string): Promise<Game> {
