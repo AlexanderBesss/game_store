@@ -1,3 +1,9 @@
+## Documentation
+
+```bash
+$ {{url}}/api/docs
+```
+
 ## Docker
 
 ```bash

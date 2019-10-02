@@ -29,7 +29,7 @@ export class Game implements IGame {
   @Expose()
   get discount(): number {
     if (moment().diff(this.releaseDate, 'months') >= 12 && moment().diff(this.releaseDate, 'months') <= 18) {
-      return this.price * 0.2;
+      return Math.round(this.price * 0.2 * 100) / 100;
     } else {
       return 0;
     }
