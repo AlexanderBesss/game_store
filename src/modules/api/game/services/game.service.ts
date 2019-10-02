@@ -39,6 +39,7 @@ export class GameService {
       publisher = await this.publisherService.findById(updateGameDto.publisherId);
     }
     const gameDataFromDto = FilterGameFromDto.filter(updateGameDto);
+    await this.findOne(id);
     const game = this.gameRepository.create(gameDataFromDto);
     if (publisher) {
       game.publisher = publisher;
