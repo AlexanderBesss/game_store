@@ -19,7 +19,7 @@ import { PublisherModule } from './modules/publisher/publisher.module';
         password: configService.DB_PASSWORD,
         database: configService.DB_NAME,
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
+        synchronize: false,
       }),
     }),
     GameModule,

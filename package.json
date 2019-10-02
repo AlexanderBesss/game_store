@@ -5,7 +5,13 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "init:prod": "NODE_ENV=production npm run typeorm:prod migration:run && npm run fixtures:prod",
+    "init:dev": "npm run typeorm:dev migration:run && npm run fixtures:dev",
+    "typeorm:dev": "ts-node  -r tsconfig-paths/register ./node_modules/typeorm/cli.js  --config ./src/database/typeorm.config.ts",
+    "typeorm:prod": "NODE_ENV=production node ./node_modules/typeorm/cli.js  --config ./dist/database/typeorm.config.js",
+    "fixtures:dev": "fixtures ./src/database/fixtures --config ./src/database/typeorm.config.ts --sync --require=ts-node/register --require=tsconfig-paths/register",
+    "fixtures:prod": "fixtures ./dist/database/fixtures --config ./dist/database/typeorm.config.js --sync --require=ts-node/register --require=tsconfig-paths/register",
+    "build": "rimraf dist && tsc -p tsconfig.build.json && cp -r ./src/database/fixtures ./dist/database",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/main.js\"",
@@ -51,6 +57,7 @@
     "tsc-watch": "2.2.1",
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
+    "typeorm-fixtures-cli": "^1.3.5",
     "typescript": "3.4.3"
   },
   "jest": {

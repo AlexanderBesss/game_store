@@ -3,7 +3,7 @@ import { Column, PrimaryGeneratedColumn, OneToMany, Entity } from 'typeorm';
 import { Game } from './game.entity';
 import { IPublisher } from './intefaces/publisher.interface';
 
-@Entity()
+@Entity('Publishers')
 export class Publisher implements IPublisher {
   @PrimaryGeneratedColumn()
   id: number;

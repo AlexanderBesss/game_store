@@ -4,7 +4,7 @@ import { Exclude } from 'class-transformer';
 import { Publisher } from './publisher.entity';
 import { IGame } from './intefaces/game.interface';
 
-@Entity()
+@Entity('games')
 export class Game implements IGame {
   @PrimaryGeneratedColumn()
   id: number;
@@ -19,7 +19,7 @@ export class Game implements IGame {
   tags: string[];
 
   @Exclude()
-  @ManyToOne(type => Publisher, publisher => publisher.games, { nullable: true, onDelete: 'CASCADE' })
+  @ManyToOne(type => Publisher, publisher => publisher.games, { nullable: false, onDelete: 'CASCADE' })
   publisher: Publisher;
 
   @Column({ type: 'timestamp', nullable: false, default: () => 'CURRENT_TIMESTAMP' })
