@@ -8,4 +8,6 @@ export class ResponseGameDto {
   tags: string[];
 
   releaseDate: Date;
+
+  discount: number;
 }

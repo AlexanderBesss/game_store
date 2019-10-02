@@ -23,7 +23,7 @@ export class GameController {
   constructor(private readonly gameService: GameService) {}
 
   @Get('actualize')
-  async actualizeGames(): Promise<any> {
+  async actualizeGames(): Promise<ResponseGameDto[]> {
     return this.gameService.actualize();
   }
 

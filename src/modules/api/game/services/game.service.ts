@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
+import { Repository, MoreThanOrEqual, LessThan } from 'typeorm';
 import * as moment from 'moment';
 
 import { Game } from '../../../../shared/entities/game.entity';
@@ -26,7 +26,13 @@ export class GameService {
   }
 
   async getGames(): Promise<Game[]> {
-    return this.gameRepository.find();
+    return this.gameRepository.find({
+      releaseDate: MoreThanOrEqual(
+        moment()
+          .subtract(18, 'months')
+          .toDate(),
+      ),
+    });
   }
 
   async getGame(id: string): Promise<Game> {
@@ -55,45 +61,42 @@ export class GameService {
   }
 
   async getPublisher(id: string): Promise<Publisher> {
-    const game = await this.gameRepository.findOne(id, { relations: ['publisher'] });
-    if (!game) {
-      throw new NotFoundException('Game not found.');
-    }
+    const game = await this.findOne(id, 'publisher');
     return game.publisher;
   }
 
   async actualize(): Promise<Game[]> {
     const games = await this.findNotActualGames();
     games.forEach(async game => {
-      if (
-        !game.isDiscount &&
-        moment().diff(game.releaseDate, 'months') >= 12 &&
-        (!game.isDiscount && moment().diff(game.releaseDate, 'months') <= 18)
-      ) {
-        game.isDiscount = true;
-        game.price = game.price * 0.8;
-        await this.gameRepository.update(game.id, game);
-      }
-      if (moment().diff(game.releaseDate, 'months') > 18) {
-        await this.gameRepository.remove(game);
-      }
+      await this.gameRepository.remove(game);
     });
     return games;
   }
 
   private async findNotActualGames(): Promise<Game[]> {
     const games = await this.gameRepository.find({
-      releaseDate: LessThanOrEqual(
+      releaseDate: LessThan(
         moment()
-          .subtract(12, 'months')
+          .subtract(18, 'months')
           .toDate(),
       ),
     });
     return games;
   }
 
-  private async findOne(id: string): Promise<Game> {
-    const game = await this.gameRepository.findOne(id);
+  private async findOne(id: string, relation?: string): Promise<Game> {
+    const relations = relation ? [relation] : [];
+    const game = await this.gameRepository.findOne({
+      where: {
+        id,
+        releaseDate: MoreThanOrEqual(
+          moment()
+            .subtract(18, 'months')
+            .toDate(),
+        ),
+      },
+      relations,
+    });
     if (!game) {
       throw new NotFoundException('Game not found.');
     }

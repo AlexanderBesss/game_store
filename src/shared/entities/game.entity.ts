@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
+import * as moment from 'moment';
 
 import { Publisher } from './publisher.entity';
 import { IGame } from './intefaces/game.interface';
@@ -25,7 +26,12 @@ export class Game implements IGame {
   @Column({ type: 'timestamp', nullable: false, default: () => 'CURRENT_TIMESTAMP' })
   releaseDate: Date;
 
-  @Exclude()
-  @Column({ default: false })
-  isDiscount: boolean;
+  @Expose()
+  get discount(): number {
+    if (moment().diff(this.releaseDate, 'months') >= 12 && moment().diff(this.releaseDate, 'months') <= 18) {
+      return this.price * 0.2;
+    } else {
+      return 0;
+    }
+  }
 }
