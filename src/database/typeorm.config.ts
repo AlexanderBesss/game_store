@@ -1,6 +1,7 @@
 import { ConfigService } from '../modules/config/services/config.service';
 import { Game } from '../shared/entities/game.entity';
 import { Publisher } from '../shared/entities/publisher.entity';
+
 const config = new ConfigService();
 const migrationDir = process.env.NODE_ENV === 'production' ? 'dist/database/migrations' : 'src/database/migrations';
 
