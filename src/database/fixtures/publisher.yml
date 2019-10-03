@@ -1,0 +1,6 @@
+entity: Publishers
+items:
+  publisher1:
+    name: 'publisher 1'
+    siret: 12345678901234
+    phone: '+10123456789'
