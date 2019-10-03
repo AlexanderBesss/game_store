@@ -17,9 +17,6 @@ rename file production.example.env to production.env
 ```bash
 # start docker in production
 $ docker-compose up
-
-# start docker in development
-docker-compose -f docker-compose.dev.yaml up
 ```
 
 ## Production
