@@ -14,7 +14,7 @@ export class Game implements IGame {
   title: string;
 
   @Exclude()
-  @Column({ default: 0, unsigned: true })
+  @Column({ type: 'float', default: 0, unsigned: true })
   price: number;
 
   @Column({ type: 'simple-array', nullable: true })

@@ -1,4 +1,4 @@
-import { Min, IsInt, IsString, Length, IsDateString, Allow } from 'class-validator';
+import { Min, IsInt, IsString, Length, IsDateString, Allow, IsNumber } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 
 export class CreateGameDto {
@@ -8,7 +8,7 @@ export class CreateGameDto {
   title: string;
 
   @ApiModelProperty()
-  @IsInt()
+  @IsNumber()
   @Min(0)
   price: number;
 

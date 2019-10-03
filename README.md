@@ -1,3 +1,10 @@
+## Before all
+
+```bash
+rename file development.example.env to development.env
+rename file production.example.env to production.env
+```
+
 ## Documentation
 
 ```bash
@@ -19,6 +26,8 @@ docker-compose -f docker-compose.dev.yaml up
 
 ```bash
 $ npm install
+
+$
 
 # build app
 $ npm run build
