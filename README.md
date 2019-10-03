@@ -1,15 +1,17 @@
 ## Documentation
 
 ```bash
-#documentation exapmle: localhost:3000/api/docs
- {{url}}/api/docs
+ localhost:3000/api/docs
 ```
 
 ## Docker
 
 ```bash
-# start app in docker
+# start docker in production
 $ docker-compose up
+
+# start docker in development
+docker-compose -f docker-compose.dev.yaml up
 ```
 
 ## Production
