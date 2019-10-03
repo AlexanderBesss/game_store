@@ -1,6 +1,10 @@
-entity: Publishers
+entity: publishers
 items:
   publisher1:
     name: 'publisher 1'
     siret: 12345678901234
     phone: '+10123456789'
+  publisher2:
+    name: 'publisher 2'
+    siret: 10345678901234
+    phone: '+11123456789'

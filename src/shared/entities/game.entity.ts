@@ -21,7 +21,7 @@ export class Game implements IGame {
   tags: string[];
 
   @Exclude()
-  @ManyToOne(type => Publisher, publisher => publisher.games, { nullable: false, onDelete: 'CASCADE' })
+  @ManyToOne(type => Publisher, publisher => publisher.games, { nullable: true, onDelete: 'CASCADE' })
   publisher: Publisher;
 
   @Column({ type: 'timestamp', nullable: false, default: () => 'CURRENT_TIMESTAMP' })
@@ -31,7 +31,7 @@ export class Game implements IGame {
     name: 'price',
     toPlainOnly: true,
   })
-  get discount(): number {
+  get calculateDiscount(): number {
     if (moment().diff(this.releaseDate, 'months') >= 12 && moment().diff(this.releaseDate, 'months') <= 18) {
       return Math.round(this.price * 0.8 * 100) / 100;
     } else {

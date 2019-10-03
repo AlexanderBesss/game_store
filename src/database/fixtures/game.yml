@@ -1,0 +1,26 @@
+entity: games
+items:
+  game1:
+    title: 'Game 1'
+    price: 35
+    tags: 'Action,First person,RTX'
+    publisher: '@publisher1'
+    releaseDate: '2018-07-15T15:53:00'
+  game2:
+    title: 'Game 2'
+    price: 9
+    tags: 'RPG,Multiplayer,Co-op'
+    publisher: '@publisher1'
+    releaseDate: '2019-07-15T15:53:00'
+  game3:
+    title: 'Game 3'
+    price: 12
+    tags: 'Action,Multiplayer,Co-op'
+    publisher: '@publisher2'
+    releaseDate: '2017-07-15T15:53:00'
+  game4:
+    title: 'Game 4'
+    price: 18
+    tags: 'Action,Multiplayer,Co-op'
+    publisher: '@publisher2'
+    releaseDate: '2019-07-15T15:53:00'

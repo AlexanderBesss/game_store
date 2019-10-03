@@ -13,5 +13,5 @@ export interface IGame {
 
   releaseDate: Date;
 
-  discount: number;
+  calculateDiscount: number;
 }
