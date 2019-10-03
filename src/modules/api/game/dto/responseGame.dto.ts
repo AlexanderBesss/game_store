@@ -15,7 +15,4 @@ export class ResponseGameDto {
 
   @ApiModelProperty({ type: String })
   releaseDate: Date;
-
-  @ApiModelProperty()
-  discount: number;
 }

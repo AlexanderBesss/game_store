@@ -1,7 +1,8 @@
 ## Documentation
 
 ```bash
- localhost:3000/api/docs
+# swagger documentation
+ http://localhost:3000/api/docs
 ```
 
 ## Docker

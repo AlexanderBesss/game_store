@@ -13,6 +13,7 @@ export class Game implements IGame {
   @Column({ length: 40 })
   title: string;
 
+  @Exclude()
   @Column({ default: 0, unsigned: true })
   price: number;
 
@@ -26,12 +27,15 @@ export class Game implements IGame {
   @Column({ type: 'timestamp', nullable: false, default: () => 'CURRENT_TIMESTAMP' })
   releaseDate: Date;
 
-  @Expose()
+  @Expose({
+    name: 'price',
+    toPlainOnly: true,
+  })
   get discount(): number {
     if (moment().diff(this.releaseDate, 'months') >= 12 && moment().diff(this.releaseDate, 'months') <= 18) {
-      return Math.round(this.price * 0.2 * 100) / 100;
+      return Math.round(this.price * 0.8 * 100) / 100;
     } else {
-      return 0;
+      return this.price;
     }
   }
 }
