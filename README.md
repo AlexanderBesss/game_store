@@ -27,8 +27,6 @@ docker-compose -f docker-compose.dev.yaml up
 ```bash
 $ npm install
 
-$
-
 # build app
 $ npm run build
 
