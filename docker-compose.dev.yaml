@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    environment:
+      - NODE_ENV=development
+    ports:
+      - '3000:3000'
+    command: sh -c './wait-for database:3306 -- npm run init:dev && npm run start'
+    depends_on:
+      - database
+  database:
+    image: mysql:5.7.27
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=game_store
+
+networks:
+  default:
+    driver: bridge
